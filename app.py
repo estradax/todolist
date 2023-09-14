@@ -4,17 +4,18 @@ from flask_graphql import GraphQLView
 
 from schema import Schema
 from config import keycloak_openid
+from middleware import AuthorizationMiddleware
 
 app = Flask(__name__)
 CORS(app)
 
 app.add_url_rule(
-            '/graphql', view_func=GraphQLView.as_view('graphql', schema=Schema)
-        )
+            '/graphql',
+            view_func=GraphQLView.as_view('graphql', schema=Schema, middleware=[AuthorizationMiddleware()]))
 
 app.add_url_rule(
-            '/graphiql', view_func=GraphQLView.as_view('graphiql', schema=Schema, graphiql=True)
-        )
+            '/graphiql',
+            view_func=GraphQLView.as_view('graphiql', schema=Schema, graphiql=True, middleware=[AuthorizationMiddleware()]))
 
 @app.route('/auth/openid-connect/callback')
 def openid_connect_callback():
