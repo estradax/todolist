@@ -34,7 +34,9 @@ def resolve_userinfo(obj, info):
 def resolve_todos(obj, info):
     conn, cur = get_db()
 
-    cur.execute('SELECT * FROM todos') 
+    user_id = info.context.userinfo.get('sub')
+
+    cur.execute('SELECT * FROM todos WHERE user_id = %s ORDER BY time DESC', (user_id,)) 
 
     todos = db_result_to_dict(cur)
 
@@ -45,8 +47,10 @@ def resolve_todos(obj, info):
 def resolve_create_todo(obj, info, input):
     conn, cur = get_db()
 
+    user_id = info.context.userinfo.get('sub')
+
     cur.execute('INSERT INTO todos(user_id, title, description) VALUES(%s, %s, %s) RETURNING *', 
-                ('garbage_uid', input.get('title'), input.get('description')))
+                (user_id, input.get('title'), input.get('description')))
 
     conn.commit()
 
@@ -58,6 +62,15 @@ def resolve_create_todo(obj, info, input):
 
 def resolve_update_todo(obj, info, id, input):
     conn, cur = get_db()
+
+    user_id = info.context.userinfo.get('sub')
+
+    # check if user is the owner its todo
+    cur.execute('SELECT * FROM todos WHERE id = %s AND user_id = %s', (id, user_id))
+
+    if cur.rowcount != 1:
+        close_db(conn, cur)
+        raise GraphQLError('You\'re not the owner of this post')
 
     title = input.get('title')
     if title is not None:
@@ -81,6 +94,15 @@ def resolve_update_todo(obj, info, id, input):
 
 def resolve_delete_todo(obj, info, id):
     conn, cur = get_db()
+
+    user_id = info.context.userinfo.get('sub')
+
+    # check if user is the owner its todo
+    cur.execute('SELECT * FROM todos WHERE id = %s AND user_id = %s', (id, user_id))
+
+    if cur.rowcount != 1:
+        close_db(conn, cur)
+        raise GraphQLError('You\'re not the owner of this post')
 
     cur.execute('DELETE FROM todos WHERE id = %s RETURNING *', (id,))
 
