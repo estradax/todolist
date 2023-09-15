@@ -1,11 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
-import { useAuth } from "../hooks/auth";
+import { Link } from "react-router-dom";
 
+import { useAuth } from "../hooks/auth";
 import { Todo } from "../todo";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import TodoList from "../components/TodoList";
-import { Link } from "react-router-dom";
+import BecomePro from "../components/BecomePro";
 
 const GET_TODOS = gql`
   query GetTodos {
@@ -14,14 +15,16 @@ const GET_TODOS = gql`
       user_id
       title
       description
+      image
       time
     }
+    is_pro
   }
 `;
 
 export default function Dashboard() {
   const { userInfo } = useAuth();
-  const { loading, error, data } = useQuery<{ todos: Todo[] }>(GET_TODOS);
+  const { loading, error, data } = useQuery<{ todos: Todo[], is_pro: boolean }>(GET_TODOS);
 
   if (loading) {
     return <Loading />;
@@ -35,8 +38,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <p>userinfo: {userInfo.sub} {userInfo.preferred_username}</p>
+      <p>userinfo: {userInfo.sub} {userInfo.preferred_username} {data.is_pro ? 'pro' : 'not pro'}</p>
       <Link to="/create-todo">Create Todo</Link>
+      {data.is_pro ? null : <BecomePro />}
       <TodoList todos={data.todos} />
     </>
   );

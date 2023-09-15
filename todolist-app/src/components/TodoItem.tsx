@@ -59,6 +59,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     <div>
       <p>id: {todo.id}</p>
       <p>user_id: {todo.user_id}</p>
+      <img src={todo.image} alt="todo image" />
       <p>title:</p>
       <input value={title} onChange={(e) => setTitle(e.target.value)} />
       <p>description</p>

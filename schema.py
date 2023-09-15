@@ -32,6 +32,7 @@ TodoType = GraphQLObjectType(
         'user_id': GraphQLField(GraphQLString),
         'title': GraphQLField(GraphQLString),
         'description': GraphQLField(GraphQLString),
+        'image': GraphQLField(GraphQLString),
         'time': GraphQLField(GraphQLString),
     }
 )
@@ -42,7 +43,8 @@ CreateTodoInputType = GraphQLInputObjectType(
         'title': GraphQLInputObjectField(
             GraphQLNonNull(GraphQLString)
         ),
-        'description': GraphQLInputObjectField(GraphQLString)
+        'description': GraphQLInputObjectField(GraphQLString),
+        'image': GraphQLInputObjectField(GraphQLString)
     }
 )
 
@@ -61,9 +63,26 @@ QueryRootType = GraphQLObjectType(
             GraphQLNonNull(GraphQLString),
             resolver=resolvers.resolve_auth_url,
         ),
+        'publishable_key': GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            resolver=resolvers.resolve_publishable_key
+        ),
+        'checkout_session': GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            args={
+                'sessionId': GraphQLArgument(
+                    GraphQLNonNull(GraphQLString)
+                )
+            },
+            resolver=resolvers.resolve_checkout_session
+        ),
         'userinfo': GraphQLField(
             UserInfoType,
             resolver=resolvers.resolve_userinfo
+        ),
+        'is_pro': GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            resolver=resolvers.resolve_is_pro
         ),
         'todos': GraphQLField(
             GraphQLList(TodoType),
@@ -105,6 +124,10 @@ MutationRootType = GraphQLObjectType(
                     ),
                 },
                 resolver=resolvers.resolve_delete_todo
+            ),
+            'create_checkout_session': GraphQLField(
+                GraphQLNonNull(GraphQLString),
+                resolver=resolvers.resolve_create_checkout_session
             )
         }
 )

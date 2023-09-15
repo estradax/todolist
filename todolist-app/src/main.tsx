@@ -10,6 +10,7 @@ import AuthCallback from './routes/AuthCallback';
 import Authenticated from './components/Authenticated';
 import Unauthenticated from './components/Unauthenticated';
 import CreateTodo from './routes/CreateTodo';
+import Success from './routes/Success';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000/graphql',
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
     element: (
       <Authenticated>
 	<CreateTodo />
+      </Authenticated>
+    )
+  },
+  {
+    path: '/success',
+    element: (
+      <Authenticated>
+	<Success />
       </Authenticated>
     )
   },
