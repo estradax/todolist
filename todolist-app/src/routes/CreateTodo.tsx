@@ -40,14 +40,14 @@ export default function CreateTodo() {
     // validate form data
     const formData = new FormData(e.currentTarget);
 
-    const image = formData.get('image') as File;
+    const image = formData.get('image');
 
     createTodo({
       variables: {
 	input: {
 	  title: formData.get('title'),
 	  description: formData.get('description'),
-	  image: image.size !== 0 ? await toBase64(image) : null
+	  image: image && (image as File).size !== 0 ? await toBase64(image as File) : null
 	}
       }
     });
