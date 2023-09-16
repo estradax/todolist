@@ -9,7 +9,7 @@ class AuthorizationMiddleware:
         if root is not None: return next(root, info, **args)
 
         # excluding auth_url as not protected endpoint
-        if info.field_name in ['auth_url', 'publishable_key']: return next(root, info, **args)
+        if info.field_name in ['auth_url', 'publishable_key', 'refresh_token']: return next(root, info, **args)
 
         authorization = info.context.authorization
         if authorization is None:

@@ -16,6 +16,7 @@ export default function AuthCallback() {
   }
 
   localStorage.setItem('access_token', tokenParsed.access_token);
+  localStorage.setItem('refresh_token', tokenParsed.refresh_token);
 
   return <Navigate to="/" replace />;
 }

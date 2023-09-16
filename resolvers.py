@@ -13,6 +13,10 @@ def resolve_auth_url(obj, info): # pyright: ignore
 
     return auth_url
 
+def resolve_refresh_token(obj, info, refresh_token): # pyright: ignore
+    token = keycloak_openid.refresh_token(refresh_token)
+    return token
+
 def resolve_publishable_key(obj, info): # pyright: ignore
     return 'pk_test_51LJaqkIfl5WCsiyEUdVuDg0zRLd3pUXgRcO2hCjdPOmoSmSsHyOxTvbr0uIJdlmGIXmobRDVydxTcKL3RBBqt1vy001f4SIzbT'
 

@@ -25,6 +25,18 @@ UserInfoType = GraphQLObjectType(
     }
 )
 
+TokenType = GraphQLObjectType(
+    name="Token",
+    fields={
+        'access_token': GraphQLField(
+            GraphQLNonNull(GraphQLString)
+        ),
+        'refresh_token': GraphQLField(
+            GraphQLNonNull(GraphQLString)
+        )
+    }
+)
+
 TodoType = GraphQLObjectType(
     name="Todo",
     fields={
@@ -62,6 +74,15 @@ QueryRootType = GraphQLObjectType(
         'auth_url': GraphQLField(
             GraphQLNonNull(GraphQLString),
             resolver=resolvers.resolve_auth_url,
+        ),
+        'refresh_token': GraphQLField(
+            GraphQLNonNull(TokenType),
+            args={
+                'refresh_token': GraphQLArgument(
+                    GraphQLNonNull(GraphQLString)
+                )
+            },
+            resolver=resolvers.resolve_refresh_token
         ),
         'publishable_key': GraphQLField(
             GraphQLNonNull(GraphQLString),
