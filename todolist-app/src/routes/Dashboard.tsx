@@ -37,13 +37,13 @@ export default function Dashboard() {
   if (!data) return;
 
   return (
-    <>
+    <div className="p-4">
       <p>UserId: {userInfo.sub}</p>
       <p>Username: {userInfo.preferred_username}</p>
       <p>Pro: {data.is_pro ? 'True' : 'False'}</p>
       <Link className="btn btn-link" to="/create-todo">Create Todo</Link>
       {data.is_pro ? null : <BecomePro />}
       <TodoList todos={data.todos} />
-    </>
+    </div>
   );
 }
