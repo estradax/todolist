@@ -56,17 +56,22 @@ export default function TodoItem({ todo }: { todo: Todo }) {
   }
 
   return (
-    <div>
+    <div className="mb-2">
       <p>id: {todo.id}</p>
-      <p>user_id: {todo.user_id}</p>
-      <img src={todo.image} alt="todo image" />
-      <p>title:</p>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
-      <p>description</p>
-      <input value={description} onChange={(e) => setDescription(e.target.value)} />
-      <p>time: {todo.time}</p>
-      <button onClick={handleUpdate}>Update</button>
-      <button onClick={handleDelete}>Delete</button>
+      <div className="mb-2">Created at: {todo.time}</div>
+      {todo.image ? (
+	<img src={todo.image} alt="todo image" className="img-thumbnail" width={300} />
+      ) : null}
+      <div className="w-25">
+	<label className="form-label">Title</label>
+	<input className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
+      </div>
+      <div className="w-25">
+	<label className="form-label">Description</label>
+	<textarea className="form-control" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+      </div>
+      <button className="btn btn-primary mt-2" onClick={handleUpdate}>Update</button>
+      <button className="btn btn-danger mt-2" onClick={handleDelete}>Delete</button>
     </div>
   );
 }

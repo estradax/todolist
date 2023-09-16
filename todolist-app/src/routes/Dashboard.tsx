@@ -38,8 +38,10 @@ export default function Dashboard() {
 
   return (
     <>
-      <p>userinfo: {userInfo.sub} {userInfo.preferred_username} {data.is_pro ? 'pro' : 'not pro'}</p>
-      <Link to="/create-todo">Create Todo</Link>
+      <p>UserId: {userInfo.sub}</p>
+      <p>Username: {userInfo.preferred_username}</p>
+      <p>Pro: {data.is_pro ? 'True' : 'False'}</p>
+      <Link className="btn btn-link" to="/create-todo">Create Todo</Link>
       {data.is_pro ? null : <BecomePro />}
       <TodoList todos={data.todos} />
     </>

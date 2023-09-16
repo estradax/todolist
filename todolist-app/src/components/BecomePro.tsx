@@ -25,5 +25,5 @@ export default function BecomePro() {
     return;
   }
 
-  return <button onClick={() => becomePro()}>Become pro</button>;
+  return <button className="btn btn-primary" onClick={() => becomePro()}>Become pro</button>;
 }

@@ -22,5 +22,10 @@ export default function Login() {
     return;
   }
 
-  return <button onClick={() => getAuthUrl()}>Login</button>;
+  return (
+    <div className="d-flex flex-column align-items-center mt-4">
+      <h1>Welcome to Login page</h1>
+      <button className="btn btn-primary" onClick={() => getAuthUrl()}>Login</button>
+    </div> 
+  );
 }
